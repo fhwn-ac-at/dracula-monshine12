@@ -1,63 +1,50 @@
-#include <stdio.h>
+#include <math.h>
+#include <time.h>
 #include <stdlib.h>
-
-#define SIZE 5
+#include <stdio.h>
 
 typedef struct {
-    int from;
-    int to;
-    int weight;
-} Edge;
+    float x;
+    float y;
+} point_t;
 
-void print_matrix(int matrix[SIZE][SIZE]) {
-    for (int i = 65; i < 65 + SIZE; i++) {
-        printf("%4c", i);
+int is_point_in_unit_circle(point_t p) {
+    if (p.x * p.x + p.y * p.y <= 1) {
+        return 1;
     }
-    puts("");
-
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            if (j == 0) 
-                printf("%c", 65 + i);
-            printf("%3d ", matrix[i][j]);
-        }
-        puts("");
-    }
-} 
-
-void add_edge(int matrix[SIZE][SIZE], Edge edge) {
-    if ((edge.from < 0 || edge.from > SIZE - 1) || (edge.to < 0 || edge.to > SIZE - 1)) {
-        puts("ERROR - add_edge(): From/To attribute of edge out of bounds! Exiting programm!");
-        exit(EXIT_FAILURE);
-    }
-    if (edge.weight <= 0) {
-        puts("WARNING - add_edge(): Weigth of edge needs to be > 0. Edge won't be added to matrix, programm will continue!");
-    }
-    if (matrix[edge.from][edge.to] != 0) {
-        printf("WARNING - add_edge(): Vertice (%d) already has an existing edge to the vertice (%d). Edge won't be added to matrix, programm will continue!\n", edge.from, edge.to);
-    }
-
-    matrix[edge.from][edge.to] = edge.weight;
-    matrix[edge.to][edge.from] = -edge.weight;
+    return 0;
 }
 
-int main(void) {
-    int matrix[SIZE][SIZE] = {0};
+point_t get_random_point() {
+    point_t p;
+    p.x = 1 - 2 * (float)rand()/(float)RAND_MAX;
+    p.y = 1 - 2 * (float)rand()/(float)RAND_MAX;
+    return p;
+}
 
-    Edge edges[] = {
-        {0, 3, 9},
-        {2, 0, 4},
-        {1, 2, 1},
-        {4, 2, 5},
-        {4, 3, 4},
-        {0, 4, 2},
-        {3, 1, 6}
-    };
+point_t random_point_in_unit_circle() {
+    srand((unsigned int)time(NULL));
+    point_t p;
+    do {
+        p = get_random_point();
+    } while (!is_point_in_unit_circle(p));
+    return p;
+}
 
-    for (int i = 0; i < (int) (sizeof(edges)/sizeof(Edge)); i++) {
-        add_edge(matrix, edges[i]);
+float approximate_pi(int const num_samples) {
+    int inside = 0;
+
+    for (int i = 0; i < num_samples; ++i) {
+        point_t const p = get_random_point();
+        if (is_point_in_unit_circle(p)) {
+            ++inside;
+        }
     }
 
-    print_matrix(matrix);
-    return 0;
+    return 4.0f * (float) inside / (float) num_samples;
+}
+int main() {
+    // point_t p = random_point_in_unit_circle();
+    // printf("Random point in unit cicle: %f, %f\n", p.x, p.y);
+    printf("PI is approximately %.6f\n", approximate_pi(1000000000));
 }
