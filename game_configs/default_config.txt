@@ -1,0 +1,21 @@
+# Board Dimensions
+ROWS=10
+COLS=10
+
+# Dice Sides
+DICE=6
+
+# ALLOW_OVERSHOOT can be true or false depending on specified game rules
+ALLOW_OVERSHOOT=true
+
+# Snakes: format START:END (head:tail)
+SNAKES=3
+16:6
+47:26
+98:78
+
+# Ladders: format START:END (bottom:top)
+LADDERS=3
+3:22
+20:38
+72:91
