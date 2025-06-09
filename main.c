@@ -11,10 +11,12 @@ int main(int argc, char** args) {
         exit(EXIT_FAILURE);
     }
 
-    BoardConfig* config = malloc(sizeof(BoardConfig));
+    GameConfig* config = malloc(sizeof(GameConfig));
     parse_config_file(args[1], config);
     print_board_config(config);
-    
+    GameBoard* game_board = create_game_board(config);
+    print_game_board(game_board);
+    free_game_board(game_board);
     // Free Memory at end of progam
     free(config);
 }

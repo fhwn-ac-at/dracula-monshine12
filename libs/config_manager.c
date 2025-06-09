@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 
-void parse_config_file(const char* filename, BoardConfig* config) {
+void parse_config_file(const char* filename, GameConfig* config) {
     FILE* file = fopen(filename, "r");
     if (!file) {
         logm(ERROR, "parse_config_file", "Encounterd error when trying to open given file, it might not exists!");
@@ -69,9 +69,9 @@ void parse_config_file(const char* filename, BoardConfig* config) {
     fclose(file);
 }
 
-void print_board_config(const BoardConfig* config) {
+void print_board_config(const GameConfig* config) {
     if (!config) {
-        printf("Invalid BoardConfig (NULL pointer).\n");
+        printf("Invalid GameConfig (NULL pointer).\n");
         return;
     }
     
