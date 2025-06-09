@@ -1,3 +1,9 @@
+# Simulation iterations
+ITERATIONS=100
+
+# Max number of simulation steps before abort
+MAXSIMSTEPS=100
+
 # Board Dimensions
 ROWS=10
 COLS=10

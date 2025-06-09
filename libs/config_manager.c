@@ -30,7 +30,11 @@ void parse_config_file(const char* filename, BoardConfig* config) {
         // Trim whitespace
         while (isspace(*line)) line++;
 
-        if (strncmp(line, "ROWS=", 5) == 0) {
+        if (strncmp(line, "ITERATIONS=", 11) == 0) {
+            config->iterations = atoi(line + 11);
+        } else if (strncmp(line, "MAXSIMSTEPS=", 12) == 0) {
+            config->max_simulation_steps = atoi(line + 12);  
+        } else if (strncmp(line, "ROWS=", 5) == 0) {
             config->rows = atoi(line + 5);
         } else if (strncmp(line, "COLS=", 5) == 0) {
             config->cols = atoi(line + 5);
@@ -70,11 +74,15 @@ void print_board_config(const BoardConfig* config) {
         printf("Invalid BoardConfig (NULL pointer).\n");
         return;
     }
-
-    printf("=== Board Configuration ===\n");
-    printf("Grid Size       : %d x %d\n", config->rows, config->cols);
-    printf("Dice Sides      : %d\n", config->dice_sides);
-    printf("Allow Overshoot : %s\n", config->allow_overshoot ? "Yes" : "No");
+    
+    printf("===========================\n");
+    printf("Simulation Configuration:\n");
+    printf("  Iterations      : %d\n", config->iterations);
+    printf("  Max Sim Steps   : %d\n", config->max_simulation_steps);
+    printf("Board Configuration:\n");
+    printf("  Grid Size       : %d x %d\n", config->rows, config->cols);
+    printf("  Dice Sides      : %d\n", config->dice_sides);
+    printf("  Allow Overshoot : %s\n", config->allow_overshoot ? "Yes" : "No");
 
     printf("\n--- Snakes (%d) ---\n", config->num_snakes);
     if (config->num_snakes == 0) {

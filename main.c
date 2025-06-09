@@ -14,6 +14,7 @@ int main(int argc, char** args) {
     BoardConfig* config = malloc(sizeof(BoardConfig));
     parse_config_file(args[1], config);
     print_board_config(config);
+    
     // Free Memory at end of progam
     free(config);
 }

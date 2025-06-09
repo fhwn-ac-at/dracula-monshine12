@@ -10,6 +10,9 @@ typedef struct {
 } Transition;
 
 typedef struct {
+    int iterations;
+    int max_simulation_steps;
+    
     int rows;
     int cols;
     int dice_sides;
