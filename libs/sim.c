@@ -16,12 +16,13 @@ int roll_dice(int dice_sides) {
 SimResults run_sim(GameBoard* board, Config* config) {
     srand(time(NULL));
     int num_fields = board->rows * board->cols;
-    int num_of_rolls = 0;
+    int num_of_total_rolls = 0;
 
     SimResults results = {
         .avg_rolls = 0,
         .overshots = 0,
-        .shortest_num_rolls = -1,
+        .shortest_num_of_rolls = -1,
+        .aborted_iterations = 0,
         .num_ladders = config->num_ladders,
         .num_snakes = config->num_snakes
     };
@@ -37,11 +38,11 @@ SimResults run_sim(GameBoard* board, Config* config) {
     for (int i = 0; i < config->iterations; i++) {
         Node* current;
         int current_idx = -1;
-        int sim_steps = 0;
+        int sim_steps = 0; // Is also used to measure number of rolls within one iteration
         do {
             sim_steps++;
             int roll = roll_dice(config->dice_sides);
-            num_of_rolls++;
+            num_of_total_rolls++;
 
             if (current_idx + roll >= num_fields && config->allow_overshoot) {
                 // If roll overshoots goal and overshoot is allowed 
@@ -74,21 +75,29 @@ SimResults run_sim(GameBoard* board, Config* config) {
                 current = current->successors[0];
             } 
 
-            if (current_idx == num_fields - 1 || sim_steps > config->max_simulation_steps) {
-                // End current iteration 
+            if (current_idx == num_fields - 1) {
+                // Reached end of board
+                if (results.shortest_num_of_rolls == -1 || sim_steps < results.shortest_num_of_rolls) {
+                    results.shortest_num_of_rolls = sim_steps;
+                }
                 break;
+            } else if (sim_steps > config->max_simulation_steps) {
+                logm(DEBUG, "run_sim", "Reached maximum simulation steps within this iteration, will abort iteration.");
+                results.aborted_iterations++;
             }
         } while(1);
     }
-    results.avg_rolls = num_of_rolls / config->iterations;
+    results.avg_rolls = num_of_total_rolls / config->iterations;
     return results;
 }
 
 void print_sim_results(SimResults sim_results) {
     puts("========= Sim Results =========");
     printf("Avg. roll = %.2f\n", sim_results.avg_rolls);
-    printf("Won through overshots = %d\n", sim_results.overshots);
-
+    printf("Won with overshots = %d\n", sim_results.overshots);
+    printf("Aborted iterations due to reaching max sim steps = %d\n", sim_results.aborted_iterations);
+    printf("Shortest amount of rolls to win = %d\n", sim_results.shortest_num_of_rolls);
+    
     int total_ladder_usages = 0;
     int total_snake_usages = 0;
 

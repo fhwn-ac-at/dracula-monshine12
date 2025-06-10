@@ -5,8 +5,8 @@
 typedef struct {
     float avg_rolls;
     int overshots;
-    int shortest_num_rolls;
-    
+    int shortest_num_of_rolls;
+    int aborted_iterations;
     int num_snakes;
     Transition snakes[MAX_SNAKES];
 

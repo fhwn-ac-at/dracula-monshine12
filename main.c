@@ -9,7 +9,7 @@
 
 int main(int argc, char** args) {
     if (argc != 2) {
-        logm(ERROR, "main", "A config file is required when trying to run executable e.g. './main game_configs/default_config.txt'!");
+        logm(ERROR, "main", "A config file is required when trying to run executable e.g. './main game_configs/default.txt'!");
         exit(EXIT_FAILURE);
     }
 
