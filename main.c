@@ -18,7 +18,7 @@ int main(int argc, char** args) {
     logm(DEBUG, "main", "Parsed configuration file successfully!");
     // print_board_config(config);
     GameBoard* board = create_game_board(config);
-    // print_game_board(board);
+    print_game_board(board);
     
     logm(DEBUG, "main", "Starting simulation now.");
     SimResults results = run_sim(board, config);

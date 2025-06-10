@@ -18,7 +18,7 @@ int check_for_existence(int start, int end, int snake_idx, int ladder_idx, Confi
     // Check if there's a snake with given start/end position
     for (int i = 0; i < snake_idx; i++) {
         if (config->snakes[i].start == start || config->snakes[i].end == end || 
-            config->snakes[i].start == end || config->snakes[i].start == end) {
+            config->snakes[i].start == end || config->snakes[i].end == start) {
             return 1;
         }
     }
@@ -26,7 +26,7 @@ int check_for_existence(int start, int end, int snake_idx, int ladder_idx, Confi
     // Check if there's a ladder with given start/end position
     for (int i = 0; i < ladder_idx; i++) {
         if (config->ladders[i].start == start || config->ladders[i].end == end ||
-            config->ladders[i].start == end || config->ladders[i].start == end) {
+            config->ladders[i].start == end || config->ladders[i].end == start) {
             return 1;
         }
     }
@@ -69,7 +69,14 @@ void parse_config_file(const char* filename, Config* config) {
         } else if (strncmp(line, "COLS=", 5) == 0) {
             config->cols = atoi(line + 5);
         } else if (strncmp(line, "DICE=", 5) == 0) {
-            config->dice_sides = atoi(line + 5);
+            int dice_sides = atoi(line + 5);
+            if (dice_sides <= 1) {
+                logm(ERROR, "parse_config_file", "Dice needs to be atleast 2, will now play with default dice sides (6).");
+                config->dice_sides = 6;
+            } else {
+                config->dice_sides = dice_sides;
+            }
+
         } else if (strncmp(line, "ALLOW_OVERSHOOT=", 16) == 0) {
             config->allow_overshoot = (strncmp(line + 16, "true", 4) == 0);
         } else if (strncmp(line, "SNAKES=", 7) == 0) {

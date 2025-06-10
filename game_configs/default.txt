@@ -1,6 +1,5 @@
 # Simulation iterations
 ITERATIONS=100
-
 # Max number of simulation steps before abort
 MAXSIMSTEPS=100
 
@@ -9,7 +8,7 @@ ROWS=10
 COLS=10
 
 # Dice Sides
-DICE=6
+DICE=20
 
 # ALLOW_OVERSHOOT can be true or false depending on specified game rules
 ALLOW_OVERSHOOT=false
@@ -22,10 +21,11 @@ SNAKES=4
 19:10
 
 # Ladders: format START:END (bottom:top) ! One-Based Indexing !
-LADDERS=6
-1:11
-10:48
+LADDERS=7
+4:11
+12:48
 72:91
 2:15
 75:96
+3:92
 24:89

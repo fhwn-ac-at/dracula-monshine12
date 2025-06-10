@@ -9,9 +9,10 @@ typedef struct {
     int aborted_iterations;
     int num_snakes;
     Transition snakes[MAX_SNAKES];
-
     int num_ladders;
     Transition ladders[MAX_SNAKES];
+    int* shortest_roll_sequence;
+    int max_simulation_steps;
 } SimResults;
 
 int roll_dice(int dice_sides);

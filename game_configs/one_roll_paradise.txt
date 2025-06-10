@@ -23,8 +23,8 @@ SNAKES=4
 
 # Ladders: format START:END (bottom:top) ! One-Based Indexing !
 LADDERS=6
-1:11
-10:48
+3:11
+14:48
 72:91
 2:15
 75:96

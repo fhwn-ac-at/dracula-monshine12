@@ -89,13 +89,13 @@ void print_game_board(GameBoard* board) {
             int index = r * board->cols + c;
             Node* node = board->start[index];
 
-            printf("[%2d] ", index);
+            printf("[%3d] ", index + 1);
 
             switch (node->ft) {
                 case SNAKE:
                     for (int i = 0; i < num_fields; i++) {
                         if (board->start[i] == node->successors[0]) {
-                            printf("S -> %3d", i);
+                            printf("S -> %3d", i + 1);
                             break;
                         }
                     }
@@ -103,7 +103,7 @@ void print_game_board(GameBoard* board) {
                 case LADDER:
                     for (int i = 0; i < num_fields; i++) {
                         if (board->start[i] == node->successors[0]) {
-                            printf("L -> %3d", i);
+                            printf("L -> %3d", i + 1);
                             break;
                         }
                     }
