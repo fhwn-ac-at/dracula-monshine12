@@ -23,19 +23,19 @@ typedef struct {
 
     int num_ladders;
     Transition ladders[MAX_SNAKES];
-} GameConfig;
+} Config;
 
 /**
- * @brief Will initialize given GameConfig variable with information from config file
+ * @brief Will initialize given Config variable with information from config file
  * 
  * @param filename Name and location of config file
- * @param config Ptr to GameConfig object which will be initialized with this function
+ * @param config Ptr to Config object which will be initialized with this function
  */
-void parse_config_file(const char* filename, GameConfig* config);
+void parse_config_file(const char* filename, Config* config);
 
 /**
- * @brief Prints all information stored within GameConfig variable
+ * @brief Prints all information stored within Config variable
  * 
  * @param config Configuration variable holding onto all configs
  */
-void print_board_config(const GameConfig* config);
+void print_board_config(const Config* config);

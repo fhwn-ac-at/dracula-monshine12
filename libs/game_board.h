@@ -8,7 +8,7 @@ typedef enum {
 
 typedef struct Node {
     FieldType ft;
-    struct Node** possible_destinations;
+    struct Node** successors;
 } Node;
 
 typedef struct {
@@ -17,6 +17,6 @@ typedef struct {
     Node** start;
 } GameBoard;
 
-GameBoard* create_game_board(GameConfig* config);
+GameBoard* create_game_board(Config* config);
 void free_game_board(GameBoard* board);
 void print_game_board(GameBoard* board);
