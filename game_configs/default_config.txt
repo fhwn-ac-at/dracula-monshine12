@@ -12,16 +12,16 @@ COLS=10
 DICE=6
 
 # ALLOW_OVERSHOOT can be true or false depending on specified game rules
-ALLOW_OVERSHOOT=true
+ALLOW_OVERSHOOT=false
 
-# Snakes: format START:END (head:tail)
+# Snakes: format START:END (head:tail) ! One-Based Indexing !
 SNAKES=3
-16:6
+10:60
 47:26
-98:78
+98:1
 
-# Ladders: format START:END (bottom:top)
+# Ladders: format START:END (bottom:top) ! One-Based Indexing !
 LADDERS=3
-3:22
-20:38
+30:14
+10:48
 72:91

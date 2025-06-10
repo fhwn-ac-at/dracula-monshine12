@@ -4,6 +4,36 @@
 #include <ctype.h>
 #include <string.h>
 
+/**
+ * @brief Checks if a snake/ladder already exists at given start/end position
+ * 
+ * @param start Start point which needs to be checked
+ * @param end End point which needs to be checked
+ * @param snake_idx How many snakes have already been inserted into transision array within config
+ * @param ladder_idx How many ladders have already been inserted into transision array within config
+ * @param config Config ptr which contains all already stored ladders/snakes
+ * @return 1 if there's already a snake/ladder at the given start/end position, otherwise 0
+ */
+int check_for_existence(int start, int end, int snake_idx, int ladder_idx, Config* config) {
+    // Check if there's a snake with given start/end position
+    for (int i = 0; i < snake_idx; i++) {
+        if (config->snakes[i].start == start || config->snakes[i].end == end || 
+            config->snakes[i].start == end || config->snakes[i].start == end) {
+            return 1;
+        }
+    }
+
+    // Check if there's a ladder with given start/end position
+    for (int i = 0; i < ladder_idx; i++) {
+        if (config->ladders[i].start == start || config->ladders[i].end == end ||
+            config->ladders[i].start == end || config->ladders[i].start == end) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 void parse_config_file(const char* filename, Config* config) {
     FILE* file = fopen(filename, "r");
     if (!file) {
@@ -53,15 +83,30 @@ void parse_config_file(const char* filename, Config* config) {
         } else {
             int start, end;
             if (sscanf(line, "%d:%d", &start, &end) == 2) {
-                if (parsing_snakes && snake_idx < config->num_snakes && snake_idx < MAX_SNAKES) {                    
-                    config->snakes[snake_idx].start = start;
-                    config->snakes[snake_idx].end = end;
-                    snake_idx++;
-                } else if (parsing_ladders && ladder_idx < config->num_ladders && ladder_idx < MAX_LADDERS) {
-                    config->ladders[ladder_idx].start = start;
-                    config->ladders[ladder_idx].end = end;
-                    ladder_idx++;
-                }
+                if (start == end) {
+                    logm(ERROR, "parse_config_file", "No snake or ladder should start or end on the same square as itself. Therefore it will not be included on the board.");
+                } else if (start == config->cols * config->rows || end == config->cols * config->rows) { // rows and cols are 1-based 
+                    logm(ERROR, "parse_config_file", "No snake or ladder should start at the last square. It will not be included on the board.");
+                } else if (check_for_existence(start, end, snake_idx, ladder_idx, config)){
+                    logm(ERROR, "parse_config_file", "No snake or ladder should start or end on the same square as any other snake or ladder. It will not be included on the board.");
+                } else if (start <= 0 || start > config->cols * config->rows || end <= 0 || end > config->cols * config->rows) {
+                    logm(ERROR, "parse_config_file", "No snake or ladder should reach out of bound of the game field. It will not be included on the board.");
+                } else if (parsing_snakes && start < end) {
+                    logm(ERROR, "parse_config_file", "Snakes have to start with a larger value than it ends with otherwise it would be a ladder. It will not be included on the board.");
+                } else if (parsing_ladders && start > end) {
+                    logm(ERROR, "parse_config_file", "Ladders have to start with a smaller value than it ends with otherwise it would be a snake. It will not be included on the board.");
+                } else {
+                    // If no error is detected with given ladder/snake positions included them in the board
+                    if (parsing_snakes && snake_idx < config->num_snakes && snake_idx < MAX_SNAKES) {                    
+                        config->snakes[snake_idx].start = start;
+                        config->snakes[snake_idx].end = end;
+                        snake_idx++;
+                    } else if (parsing_ladders && ladder_idx < config->num_ladders && ladder_idx < MAX_LADDERS) {
+                        config->ladders[ladder_idx].start = start;
+                        config->ladders[ladder_idx].end = end;
+                        ladder_idx++;
+                    }
+                }                
             }
         }
     }
