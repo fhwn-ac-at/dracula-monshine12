@@ -145,7 +145,4 @@ void print_sim_results(SimResults sim_results) {
         );
     }
     puts("===============================");
-    logm(DEBUG, "print_sim_results", "About to free shortest roll sequence.");
-    free(sim_results.shortest_roll_sequence);
-    logm(DEBUG, "print_sim_results", "Done freeing shortest roll sequence.");
 }
