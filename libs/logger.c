@@ -4,7 +4,7 @@
 #define RED "\033[1;31m"  // ERROR color
 #define BLUE "\033[1;34m" // DEBUG color
 #define RESET "\033[0m"   // Reset color
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 void logm(LogLevel log_level, char* function_name, char* message) {
     switch (log_level) {

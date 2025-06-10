@@ -6,8 +6,11 @@ GameBoard* create_game_board(Config* config) {
     int num_fields = config->rows * config->cols;
     GameBoard* game_board = malloc(sizeof(GameBoard));
     game_board->start = malloc(num_fields * sizeof(Node*));
+
+    // Initialize game_board with values from config
     game_board->rows = config->rows;
     game_board->cols = config->cols;
+    
     Node** gb = game_board -> start;
     logm(DEBUG, "create_game_board", "Initialized game board successfully.");
 

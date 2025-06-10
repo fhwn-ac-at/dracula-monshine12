@@ -100,10 +100,12 @@ void parse_config_file(const char* filename, Config* config) {
                     if (parsing_snakes && snake_idx < config->num_snakes && snake_idx < MAX_SNAKES) {                    
                         config->snakes[snake_idx].start = start;
                         config->snakes[snake_idx].end = end;
+                        config->snakes[snake_idx].times_used = 0;
                         snake_idx++;
                     } else if (parsing_ladders && ladder_idx < config->num_ladders && ladder_idx < MAX_LADDERS) {
                         config->ladders[ladder_idx].start = start;
                         config->ladders[ladder_idx].end = end;
+                        config->ladders[ladder_idx].times_used = 0;
                         ladder_idx++;
                     }
                 }                

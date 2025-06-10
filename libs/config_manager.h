@@ -7,6 +7,7 @@
 typedef struct {
     int start;
     int end;
+    int times_used;
 } Transition;
 
 typedef struct {
