@@ -38,4 +38,4 @@ void parse_config_file(const char* filename, Config* config);
  * 
  * @param config Configuration variable holding onto all configs
  */
-void print_board_config(const Config* config);
+void print_config(const Config* config);
