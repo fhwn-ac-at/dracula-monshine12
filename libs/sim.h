@@ -4,6 +4,7 @@
 
 typedef struct {
     float avg_rolls;
+    int overshots;
     int shortest_num_rolls;
 } SimResults;
 
