@@ -1,7 +1,7 @@
 # Simulation iterations
 ITERATIONS=1000
 # Max number of simulation steps before abort
-MAXSIMSTEPS=100
+MAXSIMSTEPS=1000
 
 # Board Dimensions
 ROWS=10
@@ -11,21 +11,29 @@ COLS=10
 DICE=6
 
 # ALLOW_OVERSHOOT can be true or false depending on specified game rules
-ALLOW_OVERSHOOT=true
+ALLOW_OVERSHOOT=false
 
 # Snakes: format START:END (head:tail) ! One-Based Indexing !
-SNAKES=4
-60:23
+SNAKES=10
+98:78
+95:75
+93:73
+87:24
+64:60
+62:19
+56:53
 47:26
-98:1
-19:10
+49:11
+16:6
 
 # Ladders: format START:END (bottom:top) ! One-Based Indexing !
-LADDERS=7
-4:11
-12:48
-72:91
-2:15
-75:96
-3:92
-24:89
+LADDERS=9
+1:38
+4:14
+9:31
+28:84
+21:42
+36:46
+51:67
+80:100
+71:91

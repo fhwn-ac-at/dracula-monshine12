@@ -1,0 +1,19 @@
+# Expected Effects:
+# - Avg rolls to win low because of dice
+# - Aborted iterations high 
+# Observation: It's hard to roll exactly what you need if you're so close to the finish line
+
+ITERATIONS=100
+
+MAXSIMSTEPS=100
+
+ROWS=10
+COLS=10
+
+DICE=100
+
+ALLOW_OVERSHOOT=false
+
+SNAKES=0
+
+LADDERS=0

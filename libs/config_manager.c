@@ -38,13 +38,21 @@ int check_for_existence(int start, int end, int snake_idx, int ladder_idx, Confi
 }
 
 int parse_config_file(const char* filename, Config* config) {
+    // Set a few default values for the config
+    config->iterations = 100;
+    config->rows = 10;
+    config->cols = 10;
+    config->max_simulation_steps = 1000;
+    config->allow_overshoot = 1;
+    config->dice_sides = 6;
+    
     FILE* file = fopen(filename, "r");
     if (!file) {
         logm(ERROR, "parse_config_file", "Encounterd error when trying to open given file, it might not exists!");
         return 1;
     }
 
-    char* original_ptr = malloc(sizeof(char) * MAX_LINE_LENGTH) ;
+    char* original_ptr = malloc(sizeof(char) * MAX_LINE_LENGTH);
     char* line = original_ptr;
     int parsing_snakes = 0, parsing_ladders = 0, snake_idx = 0, ladder_idx = 0;
 
@@ -79,17 +87,19 @@ int parse_config_file(const char* filename, Config* config) {
         } else if (strncmp(line, "ROWS=", 5) == 0) {
             int rows = atoi(line + 5);
             if (rows <= 0) {
-                logm(ERROR, "parse_config_file", "Number of rows must not be negative or zero. Check your config file.");
-                return 1;
+                logm(ERROR, "parse_config_file", "Number of rows must not be negative or zero, will now play with default number of rows (10).");
+                config->rows = 10;
+            } else {
+                config->rows = rows;
             }
-            config->rows = rows;
         } else if (strncmp(line, "COLS=", 5) == 0) {
             int cols = atoi(line + 5);
             if (cols <= 0) {
-                logm(ERROR, "parse_config_file", "Number of cols must not be negative or zero. Check your config file.");
-                return 1;
+                logm(ERROR, "parse_config_file", "Number of cols must not be negative or zero, will now play with default number of cols (10).");
+                config->cols = 10;
+            } else {
+                config->cols = cols;
             }
-            config->cols = cols;
         } else if (strncmp(line, "DICE=", 5) == 0) {
             int dice_sides = atoi(line + 5);
             if (dice_sides <= 1) {
@@ -157,7 +167,7 @@ int parse_config_file(const char* filename, Config* config) {
 
 void print_config(const Config* config) {
     if (!config) {
-        printf("Invalid Config (NULL pointer).\n");
+        logm(ERROR, "print_config", "Invalid Config (NULL pointer).");
         return;
     }
     

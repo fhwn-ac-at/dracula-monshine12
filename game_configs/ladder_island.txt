@@ -1,0 +1,28 @@
+# Expected Effects:
+# - avg_rolls -> Very low
+# - shortest_num_of_rolls -> Very low 
+# Observation: Should be a fast game because there are so many ladders
+
+ITERATIONS=100000
+MAXSIMSTEPS=100
+
+ROWS=10
+COLS=10
+
+DICE=6
+
+ALLOW_OVERSHOOT=true
+
+SNAKES=0
+
+LADDERS=10
+2:44
+5:70
+8:90
+15:95
+3:80
+12:60
+22:88
+9:77
+14:85
+18:99

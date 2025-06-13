@@ -7,12 +7,9 @@ typedef struct {
     int overshots;
     int shortest_num_of_rolls;
     int aborted_iterations;
-    int num_snakes;
     Transition snakes[MAX_SNAKES];
-    int num_ladders;
     Transition ladders[MAX_SNAKES];
     int* shortest_roll_sequence;
-    int max_simulation_steps;
     double elapsed_time;
 } SimResults;
 
@@ -43,5 +40,6 @@ SimResults* run_sim(GameBoard* board, Config* config);
  * - Snake and ladder usage breakdown with percentages
  *
  * @param results A ptr to `SimResults` structure containing the results to print.
+ * @param config A ptr to `Config` structure containing all const configuration information.
  */
-void print_sim_results(SimResults* results);
+void print_sim_results(SimResults* results, Config* config);

@@ -1,0 +1,26 @@
+# Expected Effects:
+# - avg_rolls -> High
+# - aborted_iterations -> High 
+# Observation: The end is heavily trapped, players keep getting kicked back
+
+ITERATIONS=100000
+MAXSIMSTEPS=100
+
+ROWS=10
+COLS=10
+
+DICE=6
+
+ALLOW_OVERSHOOT=true
+
+SNAKES=6
+99:10
+98:12
+95:15
+94:25
+92:30
+91:28
+
+LADDERS=2
+2:22
+4:40

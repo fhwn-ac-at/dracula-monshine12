@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifndef RESET
+#define RESET "\033[0m"
+#endif
+
+#define SNAKECOL "\033[1;31m"
+#define LADDERCOL "\033[1;32m"
+
 GameBoard* create_game_board(Config* config) {
     int num_fields = config->rows * config->cols;
     GameBoard* game_board = malloc(sizeof(GameBoard));
@@ -85,6 +92,7 @@ void print_game_board(GameBoard* board) {
     int num_fields = board->rows * board->cols;
 
     for (int r = 0; r < board->rows; r++) {
+        printf("| ");
         for (int c = 0; c < board->cols; c++) {
             int index = r * board->cols + c;
             Node* node = board->start[index];
@@ -95,7 +103,7 @@ void print_game_board(GameBoard* board) {
                 case SNAKE:
                     for (int i = 0; i < num_fields; i++) {
                         if (board->start[i] == node->successors[0]) {
-                            printf("S -> %3d", i + 1);
+                            printf(SNAKECOL "S -> %3d" RESET, i + 1);
                             break;
                         }
                     }
@@ -103,7 +111,7 @@ void print_game_board(GameBoard* board) {
                 case LADDER:
                     for (int i = 0; i < num_fields; i++) {
                         if (board->start[i] == node->successors[0]) {
-                            printf("L -> %3d", i + 1);
+                            printf(LADDERCOL "L -> %3d" RESET, i + 1);
                             break;
                         }
                     }

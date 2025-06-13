@@ -1,0 +1,36 @@
+# Expected Effects:
+# - Average rolls to win -> Higher than in 10x10 board
+# - Shortest number of rolls to win -> Higher than in 10x10 board
+# Observation: Might take a bit longer because of the amount of rows an cols
+
+ITERATIONS=100
+MAXSIMSTEPS=100
+
+ROWS=20
+COLS=20
+
+DICE=6
+
+ALLOW_OVERSHOOT=false
+
+SNAKES=8
+387:100
+320:80
+288:64
+350:200
+380:120
+399:220
+370:160
+385:30
+
+LADDERS=10
+4:40
+50:121
+60:130
+15:224
+81:260
+95:304
+101:321
+150:360
+201:381
+300:395

@@ -17,7 +17,7 @@ int main(int argc, char** args) {
     int return_val = parse_config_file(args[1], config);
     if (return_val) {
         free(config);
-        logm(ERROR, "main", "An error occured during config parse phase");
+        logm(ERROR, "main", "An error occured during config parse phase.");
         exit(EXIT_FAILURE);
     }
 
@@ -35,7 +35,7 @@ int main(int argc, char** args) {
         exit(EXIT_FAILURE);
     }
 
-    print_sim_results(results);
+    print_sim_results(results, config);
     logm(DEBUG, "main", "Successfully ended simulation.");
     
     logm(DEBUG, "main", "About to free resources.");
