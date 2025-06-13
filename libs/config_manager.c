@@ -61,13 +61,37 @@ void parse_config_file(const char* filename, Config* config) {
         while (isspace(*line)) line++;
 
         if (strncmp(line, "ITERATIONS=", 11) == 0) {
-            config->iterations = atoi(line + 11);
+            int iterations = atoi(line + 11);
+            if (iterations <= 0) {
+                logm(ERROR, "parse_config_file", "Number of iterations must not be negative or zero. Check your config file.");
+                free(config);
+                exit(EXIT_FAILURE);
+            }
+            config->iterations = iterations;
         } else if (strncmp(line, "MAXSIMSTEPS=", 12) == 0) {
-            config->max_simulation_steps = atoi(line + 12);  
+            int max_simulation_steps = atoi(line + 12);  
+            if (max_simulation_steps <= 0) {
+                logm(ERROR, "parse_config_file", "Number of maximum simulation steps must not be negative or zero. Check your config file.");
+                free(config);
+                exit(EXIT_FAILURE);
+            }
+            config->max_simulation_steps = max_simulation_steps;
         } else if (strncmp(line, "ROWS=", 5) == 0) {
-            config->rows = atoi(line + 5);
+            int rows = atoi(line + 5);
+            if (rows <= 0) {
+                logm(ERROR, "parse_config_file", "Number of rows must not be negative or zero. Check your config file.");
+                free(config);
+                exit(EXIT_FAILURE);
+            }
+            config->rows = rows;
         } else if (strncmp(line, "COLS=", 5) == 0) {
-            config->cols = atoi(line + 5);
+            int cols = atoi(line + 5);
+            if (cols <= 0) {
+                logm(ERROR, "parse_config_file", "Number of cols must not be negative or zero. Check your config file.");
+                free(config);
+                exit(EXIT_FAILURE);
+            }
+            config->cols = cols;
         } else if (strncmp(line, "DICE=", 5) == 0) {
             int dice_sides = atoi(line + 5);
             if (dice_sides <= 1) {
@@ -76,32 +100,43 @@ void parse_config_file(const char* filename, Config* config) {
             } else {
                 config->dice_sides = dice_sides;
             }
-
         } else if (strncmp(line, "ALLOW_OVERSHOOT=", 16) == 0) {
             config->allow_overshoot = (strncmp(line + 16, "true", 4) == 0);
         } else if (strncmp(line, "SNAKES=", 7) == 0) {
-            config->num_snakes = atoi(line + 7);
+            int num_snakes = atoi(line + 7);
+            if (num_snakes < 0) {
+                logm(ERROR, "parse_config_file", "Number of snakes must not be negative. Check your config file.");
+                free(config);
+                exit(EXIT_FAILURE);
+            }
+            config->num_snakes = num_snakes;
             parsing_snakes = 1;
             parsing_ladders = 0;
         } else if (strncmp(line, "LADDERS=", 8) == 0) {
-            config->num_ladders = atoi(line + 8);
+            int num_ladders = atoi(line + 8);
+            if (num_ladders < 0) {
+                logm(ERROR, "parse_config_file", "Number of ladders must not be negative. Check your config file.");
+                free(config);
+                exit(EXIT_FAILURE);
+            }
+            config->num_ladders = num_ladders;
             parsing_snakes = 0;
             parsing_ladders = 1;
         } else {
             int start, end;
             if (sscanf(line, "%d:%d", &start, &end) == 2) {
                 if (start == end) {
-                    logm(ERROR, "parse_config_file", "No snake or ladder should start or end on the same square as itself. Therefore it will not be included on the board.");
+                    logm(INFO, "parse_config_file", "No snake or ladder should start or end on the same square as itself. Therefore it will not be included on the board.");
                 } else if (start == config->cols * config->rows) { // rows and cols are 1-based 
-                    logm(ERROR, "parse_config_file", "No snake or ladder should start at the last square. It will not be included on the board.");
+                    logm(INFO, "parse_config_file", "No snake or ladder should start at the last square. It will not be included on the board.");
                 } else if (check_for_existence(start, end, snake_idx, ladder_idx, config)){
-                    logm(ERROR, "parse_config_file", "No snake or ladder should start or end on the same square as any other snake or ladder. It will not be included on the board.");
+                    logm(INFO, "parse_config_file", "No snake or ladder should start or end on the same square as any other snake or ladder. It will not be included on the board.");
                 } else if (start <= 0 || start > config->cols * config->rows || end <= 0 || end > config->cols * config->rows) {
-                    logm(ERROR, "parse_config_file", "No snake or ladder should reach out of bound of the game field. It will not be included on the board.");
+                    logm(INFO, "parse_config_file", "No snake or ladder should reach out of bound of the game field. It will not be included on the board.");
                 } else if (parsing_snakes && start < end) {
-                    logm(ERROR, "parse_config_file", "Snakes have to start with a larger value than it ends with otherwise it would be a ladder. It will not be included on the board.");
+                    logm(INFO, "parse_config_file", "Snakes have to start with a larger value than it ends with otherwise it would be a ladder. It will not be included on the board.");
                 } else if (parsing_ladders && start > end) {
-                    logm(ERROR, "parse_config_file", "Ladders have to start with a smaller value than it ends with otherwise it would be a snake. It will not be included on the board.");
+                    logm(INFO, "parse_config_file", "Ladders have to start with a smaller value than it ends with otherwise it would be a snake. It will not be included on the board.");
                 } else {
                     // If no error is detected with given ladder/snake positions included them in the board
                     if (parsing_snakes && snake_idx < config->num_snakes && snake_idx < MAX_SNAKES) {                    

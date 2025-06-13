@@ -1,5 +1,5 @@
 # Simulation iterations
-ITERATIONS=10000000
+ITERATIONS=1000
 # Max number of simulation steps before abort
 MAXSIMSTEPS=100
 
