@@ -34,6 +34,7 @@ SimResults* run_sim(GameBoard* board, Config* config) {
     results->num_snakes = config->num_snakes;
     results->max_simulation_steps = config->max_simulation_steps;
     results->elapsed_time = (double) clock() / CLOCKS_PER_SEC;
+    results->shortest_roll_sequence = NULL;
     
     memcpy(results->snakes, config->snakes, sizeof(Transition) * config->num_snakes);
     memcpy(results->ladders, config->ladders, sizeof(Transition) * config->num_ladders);
@@ -109,6 +110,9 @@ SimResults* run_sim(GameBoard* board, Config* config) {
                         return NULL;
                     }
                     memcpy(seq_copy, roll_sequence, sizeof(int) * sim_steps);
+                    if (results->shortest_roll_sequence != NULL) {
+                        free(results->shortest_roll_sequence);
+                    }
                     results->shortest_roll_sequence = seq_copy;
                 }
 
