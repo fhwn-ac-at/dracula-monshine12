@@ -17,21 +17,19 @@ typedef struct {
 } SimResults;
 
 /**
- * @brief Runs a simulation of the board game based on the provided configuration.
+ * @brief Simulates the board game and collects statistics.
  *
- * Simulates multiple iterations of the game, collecting statistics such as average rolls
- * to win, overshoots, ladder and snake usage, aborted iterations, and the shortest win sequence.
+ * Runs the simulation for a number of iterations based on the provided configuration.
+ * Collects statistics such as average rolls to win, overshoots, snake/ladder usage, aborted iterations,
+ * and the shortest roll sequence. Memory for the results and shortest roll sequence is dynamically allocated.
  *
- * The function supports both normal gameplay and overshoot rules, and handles ladders and snakes
- * as configured. Memory for shortest roll sequence is dynamically allocated and should be managed externally.
+ * @param board Pointer to an initialized GameBoard.
+ * @param config Pointer to the simulation configuration.
+ * @return Pointer to a dynamically allocated SimResults structure, or NULL if allocation fails.
  *
- * @param board Pointer to the initialized `GameBoard` structure.
- * @param config Pointer to the `Config` structure containing simulation settings.
- * @return A populated `SimResults` structure containing simulation statistics.
- *
- * @warning Terminates the program with `exit(EXIT_FAILURE)` if memory allocation fails during the simulation.
+ * @note The caller must free the returned SimResults (and its shortest_roll_sequence if set).
  */
-SimResults run_sim(GameBoard* board, Config* config);
+SimResults* run_sim(GameBoard* board, Config* config);
 
 /**
  * @brief Prints the results of a simulation in a readable format.
@@ -44,6 +42,6 @@ SimResults run_sim(GameBoard* board, Config* config);
  * - Shortest roll sequence and number of rolls
  * - Snake and ladder usage breakdown with percentages
  *
- * @param sim_results The `SimResults` structure containing the results to print.
+ * @param results A ptr to `SimResults` structure containing the results to print.
  */
-void print_sim_results(SimResults sim_results);
+void print_sim_results(SimResults* results);

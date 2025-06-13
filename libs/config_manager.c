@@ -37,12 +37,11 @@ int check_for_existence(int start, int end, int snake_idx, int ladder_idx, Confi
     return 0;
 }
 
-void parse_config_file(const char* filename, Config* config) {
+int parse_config_file(const char* filename, Config* config) {
     FILE* file = fopen(filename, "r");
     if (!file) {
         logm(ERROR, "parse_config_file", "Encounterd error when trying to open given file, it might not exists!");
-        free(config);
-        exit(EXIT_FAILURE);
+        return 1;
     }
 
     char* original_ptr = malloc(sizeof(char) * MAX_LINE_LENGTH) ;
@@ -67,32 +66,28 @@ void parse_config_file(const char* filename, Config* config) {
             int iterations = atoi(line + 11);
             if (iterations <= 0) {
                 logm(ERROR, "parse_config_file", "Number of iterations must not be negative or zero. Check your config file.");
-                free(config);
-                exit(EXIT_FAILURE);
+                return 1;
             }
             config->iterations = iterations;
         } else if (strncmp(line, "MAXSIMSTEPS=", 12) == 0) {
             int max_simulation_steps = atoi(line + 12);  
             if (max_simulation_steps <= 0) {
                 logm(ERROR, "parse_config_file", "Number of maximum simulation steps must not be negative or zero. Check your config file.");
-                free(config);
-                exit(EXIT_FAILURE);
+                return 1;
             }
             config->max_simulation_steps = max_simulation_steps;
         } else if (strncmp(line, "ROWS=", 5) == 0) {
             int rows = atoi(line + 5);
             if (rows <= 0) {
                 logm(ERROR, "parse_config_file", "Number of rows must not be negative or zero. Check your config file.");
-                free(config);
-                exit(EXIT_FAILURE);
+                return 1;
             }
             config->rows = rows;
         } else if (strncmp(line, "COLS=", 5) == 0) {
             int cols = atoi(line + 5);
             if (cols <= 0) {
                 logm(ERROR, "parse_config_file", "Number of cols must not be negative or zero. Check your config file.");
-                free(config);
-                exit(EXIT_FAILURE);
+                return 1;
             }
             config->cols = cols;
         } else if (strncmp(line, "DICE=", 5) == 0) {
@@ -109,8 +104,7 @@ void parse_config_file(const char* filename, Config* config) {
             int num_snakes = atoi(line + 7);
             if (num_snakes < 0) {
                 logm(ERROR, "parse_config_file", "Number of snakes must not be negative. Check your config file.");
-                free(config);
-                exit(EXIT_FAILURE);
+                return 1;
             }
             config->num_snakes = num_snakes;
             parsing_snakes = 1;
@@ -119,8 +113,7 @@ void parse_config_file(const char* filename, Config* config) {
             int num_ladders = atoi(line + 8);
             if (num_ladders < 0) {
                 logm(ERROR, "parse_config_file", "Number of ladders must not be negative. Check your config file.");
-                free(config);
-                exit(EXIT_FAILURE);
+                return 1;
             }
             config->num_ladders = num_ladders;
             parsing_snakes = 0;
@@ -159,6 +152,7 @@ void parse_config_file(const char* filename, Config* config) {
     }
     free(original_ptr);
     fclose(file);
+    return 0;
 }
 
 void print_config(const Config* config) {

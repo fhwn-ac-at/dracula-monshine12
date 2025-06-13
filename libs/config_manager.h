@@ -27,29 +27,33 @@ typedef struct {
 } Config;
 
 /**
- * @brief Parses a configuration file to populate a Config structure.
+ * @brief Parses the game configuration from a file into a Config structure.
  *
- * Reads and validates simulation and board parameters from a file, including grid size, number of dice sides,
- * number of snakes and ladders, and their respective positions. Also performs checks to ensure the validity of
- * snake and ladder definitions.
+ * Reads a configuration file line-by-line to initialize a `Config` struct with game parameters
+ * such as board size, dice properties, and snakes/ladders definitions. Performs extensive validation
+ * and logs errors, warnings, and info messages accordingly.
  *
- * Supported fields in the config file include:
- * - ITERATIONS
- * - MAXSIMSTEPS
- * - ROWS
- * - COLS
- * - DICE
- * - ALLOW_OVERSHOOT
- * - SNAKES
- * - LADDERS
- * - Snake and ladder transitions (e.g. `23:8` or `4:17`)
+ * Configuration keys supported:
+ * - ITERATIONS (must be > 0)
+ * - MAXSIMSTEPS (must be > 0)
+ * - ROWS (must be > 0)
+ * - COLS (must be > 0)
+ * - DICE (must be ≥ 2, otherwise defaults to 6 with a warning)
+ * - ALLOW_OVERSHOOT (true/false)
+ * - SNAKES= followed by snake definitions (format: `start:end`)
+ * - LADDERS= followed by ladder definitions (format: `start:end`)
  *
  * @param filename Path to the configuration file.
- * @param config Pointer to the `Config` structure to populate.
+ * @param config Pointer to a Config structure that will be populated.
  *
- * @warning Terminates the program using `exit(EXIT_FAILURE)` on file access or validation errors.
+ * @return int Returns `0` on success, `1` on failure (e.g., invalid input, file error).
+ *
+ * @note Lines beginning with '#' are treated as comments.
+ * @note Whitespace is ignored; values are trimmed and validated.
+ * @note Snakes must start at a higher square than they end; ladders the opposite.
+ * @note Duplicate or overlapping snake/ladder positions are skipped with an info message.
  */
-void parse_config_file(const char* filename, Config* config);
+int parse_config_file(const char* filename, Config* config);
 
 /**
  * @brief Prints the contents of a Config structure in a human-readable format.
