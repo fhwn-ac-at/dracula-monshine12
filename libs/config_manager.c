@@ -92,7 +92,7 @@ void parse_config_file(const char* filename, Config* config) {
             if (sscanf(line, "%d:%d", &start, &end) == 2) {
                 if (start == end) {
                     logm(ERROR, "parse_config_file", "No snake or ladder should start or end on the same square as itself. Therefore it will not be included on the board.");
-                } else if (start == config->cols * config->rows || end == config->cols * config->rows) { // rows and cols are 1-based 
+                } else if (start == config->cols * config->rows) { // rows and cols are 1-based 
                     logm(ERROR, "parse_config_file", "No snake or ladder should start at the last square. It will not be included on the board.");
                 } else if (check_for_existence(start, end, snake_idx, ladder_idx, config)){
                     logm(ERROR, "parse_config_file", "No snake or ladder should start or end on the same square as any other snake or ladder. It will not be included on the board.");

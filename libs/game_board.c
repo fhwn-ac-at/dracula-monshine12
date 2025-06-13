@@ -59,7 +59,7 @@ GameBoard* create_game_board(Config* config) {
     return game_board;
 }
 
-void free_game_board(GameBoard* game_board) {
+void free_board(GameBoard* game_board) {
     if (!game_board) return;
 
     int num_fields = game_board->rows * game_board->cols;

@@ -26,7 +26,7 @@ int main(int argc, char** args) {
     logm(DEBUG, "main", "Successfully ended simulation.");
     
     logm(DEBUG, "main", "About to free resources.");
-    free_game_board(board);
+    free_board(board);
     free(config);
     free(results.shortest_roll_sequence);
     logm(DEBUG, "main", "Freed resources successfully!");

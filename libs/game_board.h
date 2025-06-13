@@ -18,5 +18,5 @@ typedef struct {
 } GameBoard;
 
 GameBoard* create_game_board(Config* config);
-void free_game_board(GameBoard* board);
+void free_board(GameBoard* board);
 void print_game_board(GameBoard* board);

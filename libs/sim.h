@@ -13,6 +13,7 @@ typedef struct {
     Transition ladders[MAX_SNAKES];
     int* shortest_roll_sequence;
     int max_simulation_steps;
+    double elapsed_time;
 } SimResults;
 
 int roll_dice(int dice_sides);
