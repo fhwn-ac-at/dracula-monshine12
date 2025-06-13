@@ -5,14 +5,17 @@
 #include <string.h>
 
 /**
- * @brief Checks if a snake/ladder already exists at given start/end position
- * 
- * @param start Start point which needs to be checked
- * @param end End point which needs to be checked
- * @param snake_idx How many snakes have already been inserted into transision array within config
- * @param ladder_idx How many ladders have already been inserted into transision array within config
- * @param config Config ptr which contains all already stored ladders/snakes
- * @return 1 if there's already a snake/ladder at the given start/end position, otherwise 0
+ * @brief Checks for duplicate snake or ladder positions in the configuration.
+ *
+ * Ensures that the given start or end position does not already belong to an existing snake or ladder,
+ * either as a start or an end point. Prevents overlapping or conflicting transitions.
+ *
+ * @param start The proposed start position of a new snake or ladder.
+ * @param end The proposed end position of a new snake or ladder.
+ * @param snake_idx Number of snakes already added to the configuration.
+ * @param ladder_idx Number of ladders already added to the configuration.
+ * @param config Pointer to the configuration data where snakes and ladders are stored.
+ * @return 1 if a conflict exists; 0 otherwise.
  */
 int check_for_existence(int start, int end, int snake_idx, int ladder_idx, Config* config) {
     // Check if there's a snake with given start/end position

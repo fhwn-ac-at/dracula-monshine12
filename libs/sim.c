@@ -5,10 +5,15 @@
 #include <string.h>
 
 /**
- * @brief Generates a random number upto given dice sides
- * 
- * @param dice_sides Highest number to be generated = sides of given dice
- * @note This implementation isn't threadsafe
+ * @brief Rolls a die and returns a random value between 1 and the number of sides.
+ *
+ * This function generates a pseudo-random integer between 1 and `dice_sides`, simulating
+ * the roll of a die with the specified number of sides.
+ *
+ * @param dice_sides The number of sides on the die. Must be greater than 0.
+ * @return A pseudo-random number in the range [1, dice_sides].
+ *
+ * @note This implementation uses `rand()` and is not thread-safe.
  */
 int roll_dice(int dice_sides) {
     return rand() % dice_sides + 1;

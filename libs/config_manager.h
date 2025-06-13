@@ -27,16 +27,37 @@ typedef struct {
 } Config;
 
 /**
- * @brief Will initialize given Config variable with information from config file
- * 
- * @param filename Name and location of config file
- * @param config Ptr to Config object which will be initialized with this function
+ * @brief Parses a configuration file to populate a Config structure.
+ *
+ * Reads and validates simulation and board parameters from a file, including grid size, number of dice sides,
+ * number of snakes and ladders, and their respective positions. Also performs checks to ensure the validity of
+ * snake and ladder definitions.
+ *
+ * Supported fields in the config file include:
+ * - ITERATIONS
+ * - MAXSIMSTEPS
+ * - ROWS
+ * - COLS
+ * - DICE
+ * - ALLOW_OVERSHOOT
+ * - SNAKES
+ * - LADDERS
+ * - Snake and ladder transitions (e.g. `23:8` or `4:17`)
+ *
+ * @param filename Path to the configuration file.
+ * @param config Pointer to the `Config` structure to populate.
+ *
+ * @warning Terminates the program using `exit(EXIT_FAILURE)` on file access or validation errors.
  */
 void parse_config_file(const char* filename, Config* config);
 
 /**
- * @brief Prints all information stored within Config variable
- * 
- * @param config Configuration variable holding onto all configs
+ * @brief Prints the contents of a Config structure in a human-readable format.
+ *
+ * Displays simulation settings (e.g. iterations, max steps, dice sides), board configuration,
+ * and a list of defined snakes and ladders.
+ *
+ * @param config Pointer to a `Config` structure to print.
  */
 void print_config(const Config* config);
+
