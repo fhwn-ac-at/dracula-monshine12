@@ -52,7 +52,8 @@ SimResults* run_sim(GameBoard* board, Config* config) {
         int sim_steps = 0;
         int current_idx = -1;
         int rolls_in_iter = 0;
-        
+        Node* current = NULL;
+
         while (1) {
             if (++sim_steps >= config->max_simulation_steps) {
                 results->aborted_iterations++;
@@ -76,9 +77,19 @@ SimResults* run_sim(GameBoard* board, Config* config) {
 
             roll_sequence[sim_steps - 1] = roll;
             rolls_in_iter++;
-            current_idx = target_idx;
+            
+            if (!current) {
+                // Current hasn't been filled yet
+                current = board->start[target_idx];
+            } else {
+                // If the game was won by overshot, the roll needs to be adjusted otherwise it will cause idx out of bounds issues
+                // otherwise just use the rolled value - 1
+                current = (target_idx == num_fields - 1 && config->allow_overshoot) ? 
+                    current->successors[num_fields - 1 - current_idx - 1] : 
+                    current->successors[roll - 1];
+            }
 
-            Node* current = board->start[current_idx];
+            current_idx = target_idx;
 
             // Handle Snake
             if (current->ft == SNAKE) {
@@ -86,6 +97,7 @@ SimResults* run_sim(GameBoard* board, Config* config) {
                     if (results->snakes[j].start - 1 == current_idx) {
                         results->snakes[j].times_used++;
                         current_idx = results->snakes[j].end - 1;
+                        current = current->successors[0];
                         break;
                     }
                 }
@@ -96,6 +108,7 @@ SimResults* run_sim(GameBoard* board, Config* config) {
                     if (results->ladders[j].start - 1 == current_idx) {
                         results->ladders[j].times_used++;
                         current_idx = results->ladders[j].end - 1;
+                        current = current->successors[0];
                         break;
                     }
                 }
