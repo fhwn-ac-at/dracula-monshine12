@@ -3,7 +3,7 @@
 # - Shortest number of rolls to win -> Very low 
 # Observation: Should be a fast game because it's a tiny board
 
-ITERATIONS=100
+ITERATIONS=1000
 MAXSIMSTEPS=100
 
 ROWS=5

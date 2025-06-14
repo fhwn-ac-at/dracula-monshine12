@@ -3,7 +3,7 @@
 # - Shortest number of rolls to win -> Higher than in 10x10 board
 # Observation: Might take a bit longer because of the amount of rows an cols
 
-ITERATIONS=100
+ITERATIONS=10000
 MAXSIMSTEPS=100
 
 ROWS=20
