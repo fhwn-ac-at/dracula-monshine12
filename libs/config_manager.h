@@ -63,5 +63,5 @@ int parse_config_file(const char* filename, Config* config);
  *
  * @param config Pointer to a `Config` structure to print.
  */
-void print_config(const Config* config);
+void print_config(Config* config);
 

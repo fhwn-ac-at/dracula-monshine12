@@ -10,6 +10,11 @@
 #define LADDERCOL "\033[1;32m"
 
 GameBoard* create_game_board(Config* config) {
+    if (!config) {
+        logm(ERROR, "create_game_board", "Invalid Config (NULL pointer).");
+        return NULL;
+    }
+    
     int num_fields = config->rows * config->cols;
     GameBoard* game_board = malloc(sizeof(GameBoard));
     game_board->start = malloc(num_fields * sizeof(Node*));
@@ -86,7 +91,10 @@ void free_board(GameBoard* game_board) {
 }
 
 void print_game_board(GameBoard* board) {
-    if (!board || !board->start) return;
+    if (!board || !board->start) {
+        logm(ERROR, "print_game_board", "Invalid board or start point (NULL pointer).");
+        return;
+    }
 
     puts("");
     int num_fields = board->rows * board->cols;

@@ -38,6 +38,11 @@ int check_for_existence(int start, int end, int snake_idx, int ladder_idx, Confi
 }
 
 int parse_config_file(const char* filename, Config* config) {
+    if (!config) {
+        logm(ERROR, "parse_config_file", "Invalid Config (NULL pointer).");
+        return 1;
+    }
+
     // Set a few default values for the config
     config->iterations = 100;
     config->rows = 10;
@@ -165,7 +170,7 @@ int parse_config_file(const char* filename, Config* config) {
     return 0;
 }
 
-void print_config(const Config* config) {
+void print_config(Config* config) {
     if (!config) {
         logm(ERROR, "print_config", "Invalid Config (NULL pointer).");
         return;

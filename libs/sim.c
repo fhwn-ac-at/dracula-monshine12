@@ -20,6 +20,11 @@ int roll_dice(int dice_sides) {
 }
 
 SimResults* run_sim(GameBoard* board, Config* config) {
+    if (!board || !board->start || !config) {
+        logm(ERROR, "run_sim", "Invalid board, start point or config (NULL pointer).");
+        return NULL;
+    }
+
     srand(time(NULL));
 
     const int num_fields = board->rows * board->cols;
@@ -131,6 +136,11 @@ SimResults* run_sim(GameBoard* board, Config* config) {
 }
 
 void print_sim_results(SimResults* results, Config* config) {
+    if (!results || !config) {
+        logm(ERROR, "run_sim", "Invalid result or config (NULL pointer).");
+        return;
+    }
+
     int games_won = config->iterations - results->aborted_iterations;
     double game_won_percentage = (double) games_won / config->iterations * 100; // config->iterations cannot be zero due to config constraints
     double abortion_percentage = (double) results->aborted_iterations / config->iterations * 100;
